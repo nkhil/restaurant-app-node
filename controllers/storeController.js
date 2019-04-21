@@ -76,18 +76,16 @@ exports.updateStore = async (req, res) => {
 };
 
 exports.getStoreBySlug = async (req, res, next) => {
-  // req.params.slug
   const store = await Store.findOne({ slug: req.params.slug });
   if (!store) return next();
   res.render("store", { title: `${store.name}`, store });
 };
 
 exports.getStoresByTag = async (req, res) => {
-  const tag = req.params.tag;˝˝˝
+  const tag = req.params.tag;
   const tagQuery = tag || { $exists: true };
   const tagsPromise = Store.getTagsList();
-  const storesPromise = Store.find({ tags: ˝˝˝˝˝ });
+  const storesPromise = Store.find({ tags: tagQuery });
   const [tags, stores] = await Promise.all([tagsPromise, storesPromise]);
   res.render("tag", { tags, stores, title: "Tags", tag });
 };
-˝
